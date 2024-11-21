@@ -1,6 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { AppContext } from '../context/AppContext'
+import axios from 'axios'
 
 const Login = () => {
+
+  const {backendUrl, token, setToken} = useContext(AppContext)
 
   const [state, setState] = useState('Sign Up')
 
@@ -10,7 +14,13 @@ const Login = () => {
 
   const onSubmitHandler = async (event) => {
     event.preventDefault()
-
+    try {
+      if (state === 'Sign Up') {
+        const {data} = await axios.post(backendUrl + '/api/user/register', {name, email, password})
+      }
+    } catch (error) {
+      
+    }
   }
   return (
     <form className='min-h-[80vh] flex items-center'>
