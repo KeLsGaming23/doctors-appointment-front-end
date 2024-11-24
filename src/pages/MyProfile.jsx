@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { AppContext } from '../context/AppContext'
 import {assets} from '../assets/assets'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
 const MyProfile = () => {
 
@@ -13,9 +15,27 @@ const MyProfile = () => {
 const updateUserProfileData = async () => {
   try {
     const formData = new FormData()
-    
+    formData.append('name', userData.name)
+    formData.append('phone', userData.phone)
+    formData.append('address', JSON.stringify(userData.address))
+    formData.append('gender', userData.gender)
+    formData.append('dob', userData.dob)
+
+    image && formData.append('image', image)
+
+    const {data} = await axios.post(backendUrl + '/api/user/update-profile', formData,{headers:{token}})
+
+    if (data.success) {
+      toast.success(data.message)
+      await loadUserProfileData()
+      setIsEdit(false)
+      setImage(false)
+    } else {
+      toast.error(data.message)
+    }
   } catch (error) {
-    
+    console.log(error)
+    toast.error(error.message)
   }
 }
 
@@ -55,15 +75,15 @@ const updateUserProfileData = async () => {
               isEdit
               ? 
               <p>
-                <input className='bg-gray-50' type="text" onChange={e => setUserData(prev => ({...prev.address, line1: e.target.value}))} value={userData.address.line1}/>
+                <input className='bg-gray-50' type="text" value={userData.address.lilne1} onChange={e =>setUserData(prev => ({...prev, address: { ...prev.address, lilne1: e.target.value } }))} />
                 <br />
-                <input className='bg-gray-50' type="text" onChange={e => setUserData(prev => ({...prev.address, line2: e.target.value}))} value={userData.address.line2}/>
+                <input className='bg-gray-50' type="text" value={userData.address.lilne2} onChange={e => setUserData(prev => ({...prev, address: { ...prev.address, lilne2: e.target.value } }))} />
               </p>
               :
               <p className='text-gray-500'>
-                {userData.address.line1}
+                {userData.address.lilne1}
                 <br />
-                {userData.address.line1}
+                {userData.address.lilne2}
               </p>
 
             }
