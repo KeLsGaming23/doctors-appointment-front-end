@@ -48,10 +48,23 @@ const Appointment = () => {
       while(currentDate < endTime){
         let formattedTime = currentDate.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})
 
-        timeSlots.push({
-          datetime: new Date(currentDate),
-          time: formattedTime
-        })
+        let day = currentDate.getDate()
+        let month = currentDate.getMonth()
+        let year = currentDate.getFullYear()
+
+        let slotDate = `${day}_${month}_${year}`
+        let slotTime = formattedTime
+
+        const isSlotAvailable = docInfo.slots[slotDate] && docInfo.slots[slotDate].includes(slotTime) ? false : true
+
+        if (isSlotAvailable) {
+          timeSlots.push({
+            datetime: new Date(currentDate),
+            time: formattedTime
+          })
+        }
+
+       
         currentDate.setMinutes(currentDate.getMinutes() + 30)
       }
       
