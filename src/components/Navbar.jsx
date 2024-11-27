@@ -12,6 +12,7 @@ const Navbar = () => {
 
         setToken(false)
         localStorage.removeItem('token')
+        navigate('/')
 
     }
 
