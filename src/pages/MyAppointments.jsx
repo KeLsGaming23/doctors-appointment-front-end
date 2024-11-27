@@ -8,6 +8,9 @@ const MyAppointments = () => {
   const [appointments, setAppointments] = useState([])
   const months = ['','Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
+  // Store payment ID testing
+  const [paymentId, setPaymentID] = useState('')
+
   const slotDateFormat = (slotDate) => {
     const dateArray = slotDate.split('_')
     return dateArray[0] + " " + months[Number(dateArray[1])] + " " +dateArray[2]
@@ -46,6 +49,40 @@ const MyAppointments = () => {
     }
   }
 
+  //Create Payment Intent
+  const createPaymentIntent = () => {
+    const options = {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'content-type': 'application/json',
+        authorization: 'Basic c2tfdGVzdF9GejFnN1lIZkpVbUR2UHJ1djJhaGg2ZW06'
+      },
+      body: JSON.stringify({data: {attributes: {amount: 20000, description: 'test payment'}}})
+    };
+  
+    fetch('https://api.paymongo.com/v1/links', options)
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res); // Log the full response for debugging
+
+        const checkoutUrl = res?.data?.attributes?.checkout_url;
+        const id = res?.data?.id;
+        if (checkoutUrl) {
+          // Redirect the user to the checkout page
+          //window.location.href = checkoutUrl;
+          console.log(id)
+          localStorage.setItem('transactionId', id)
+          console.log('Stored Transaction ID:', localStorage.getItem('transactionId'));
+        } else {
+          console.error('Checkout URL not found in response');
+        }
+      })
+      .catch((err) => {
+        console.error('Error:', err);
+      });
+  };
+
   useEffect(()=>{
     if (token) {
       getUserAppointments()
@@ -72,7 +109,8 @@ const MyAppointments = () => {
                 </div>
                 <div></div>
                 <div className='flex flex-col gap-2 justify-end'>
-                  {!item.cancelled && <button className='text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300'>Pay Online</button>}
+                  {!item.cancelled && item.payment && <button className='sm:min-w-48 py-2 border rounded text-stone-500 bg-indigo-50'>Paid</button>}
+                  {!item.cancelled && !item.payment && <button onClick={()=>createPaymentIntent()} className='text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300'>Pay Online</button>}
                   {!item.cancelled && <button onClick={()=>cancelAppointment(item._id)} className='text-sm text-stone-500 text-center sm:min-w-48 py-2 border rounded hover:bg-red-600 hover:text-white transition-all duration-300'>Cancel Appointment</button>}
                   {item.cancelled && <button className='sm:min-w-48 py-2 border border-red-500 rounded text-red-500'>Appointment Cancelled</button>}
                 </div>
