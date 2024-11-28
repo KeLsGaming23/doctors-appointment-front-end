@@ -8,13 +8,15 @@ const MyAppointments = () => {
   const [appointments, setAppointments] = useState([])
   const months = ['','Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
-  // Store payment ID testing
-  const [paymentId, setPaymentID] = useState('')
+
 
   const slotDateFormat = (slotDate) => {
     const dateArray = slotDate.split('_')
     return dateArray[0] + " " + months[Number(dateArray[1])] + " " +dateArray[2]
   }
+
+    // Store payment ID testing
+    const [paymentId, setPaymentID] = useState('')
 
   const getUserAppointments = async () => {
     try {
@@ -70,7 +72,7 @@ const MyAppointments = () => {
         const id = res?.data?.id;
         if (checkoutUrl) {
           // Redirect the user to the checkout page
-          //window.location.href = checkoutUrl;
+          window.location.href = checkoutUrl;
           console.log(id)
           localStorage.setItem('transactionId', id)
           console.log('Stored Transaction ID:', localStorage.getItem('transactionId'));
