@@ -10,8 +10,8 @@ const Footer = () => {
                 {/*<img className='mb-5 w-40' src={assets.logo} alt="" /> */}
                 <p className='text-xl font-medium mb-5'>DOCTORS SCHEDULE</p>
                 <p className='text-md w-full md:w-2/3 text-gray-600 leading-6'>Central Luzon Doctors Hospital Gerona Tarlac <br />Clinic room 3 <br />Monday, Tuesday Thursday and Friday <br />12 noon - 2 pm </p>
-                <p className='text-md  mt-2 w-full md:w-2/3 text-gray-600 leading-6'>Central Luzon Doctors Hospital Gerona Tarlac <br />Clinic room 3 <br />Monday, Tuesday Thursday and Friday <br />12 noon - 2 pm </p>
-                <p className='text-md  mt-2 w-full md:w-2/3 text-gray-600 leading-6'>Central Luzon Doctors Hospital Gerona Tarlac <br />Clinic room 3 <br />Monday, Tuesday Thursday and Friday <br />12 noon - 2 pm </p>
+                <p className='text-md  mt-2 w-full md:w-2/3 text-gray-600 leading-6'>Tarlac Medical Center <br />Clinic room 21 <br />Monday Wednesday Friday  <br />11 am - 12 noon </p>
+                <p className='text-md  mt-2 w-full md:w-2/3 text-gray-600 leading-6'>Luzon Polyclinic  <br />Capas Tarlac  <br />Monday to Friday  <br />4-6 pm</p>
             </div>
             {/* -Center side- */}
             <div>
